@@ -63,14 +63,7 @@ describe('Test with backend', () => {
     cy.get('app-article-list button').eq(1).click().should('contain', '6')
   })
 
-  it.only('add then delete a new article in a global feed', () => {
-    const userCredentials = {
-      "user": {
-        "email": "can@123.com",
-        "password": "123"
-      }
-    }
-
+  it('add then delete a new article in a global feed', () => {
     const bodyRequest = {
       "article": {
         "tagList": [],
@@ -80,9 +73,7 @@ describe('Test with backend', () => {
       }
     }
 
-    cy.request('POST', 'https://conduit-api.bondaracademy.com/api/users/login', userCredentials).its('body').then(body => {
-      const token = body.user.token
-
+    cy.get('@token').then(token => {
       cy.request({
         url: 'https://conduit-api.bondaracademy.com/api/articles/',
         headers: { 'Authorization': 'Token ' + token },
