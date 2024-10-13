@@ -1,11 +1,11 @@
 describe('Test with backend', () => {
   beforeEach('login to app', () => {
-    cy.intercept('GET', 'https://conduit-api.bondaracademy.com/api/tags', { fixture: 'tags.json' })
+    cy.intercept({ method: 'Get', path: 'tags' }, { fixture: 'tags.json' })
     cy.loginToApp()
   })
 
   it('verify correct request and response', () => {
-    cy.intercept('POST', 'https://conduit-api.bondaracademy.com/api/articles/').as('postArticles')
+    cy.intercept('POST', '**/articles').as('postArticles')
 
     cy.contains('New Article').click()
     cy.get('[formcontrolname="title"]').type('This is the title ' + Math.random())
@@ -18,6 +18,25 @@ describe('Test with backend', () => {
       expect(xhr.response.statusCode).to.equal(201)
       expect(xhr.request.body.article.body).to.equal('This is the body')
       expect(xhr.response.body.article.description).to.equal('This is the description')
+    })
+  })
+
+  it.only('intercepting and modifying the request and response', () => {
+    cy.intercept('POST', '**/articles', (req) => {
+      req.body.article.description = 'This is the description 2'
+    }).as('postArticles')
+
+    cy.contains('New Article').click()
+    cy.get('[formcontrolname="title"]').type('This is the title ' + Math.random())
+    cy.get('[formcontrolname="description"]').type('This is the description')
+    cy.get('[formcontrolname="body"]').type('This is the body')
+    cy.contains('Publish Article').click()
+
+    cy.wait('@postArticles')
+    cy.get('@postArticles').then(xhr => {
+      expect(xhr.response.statusCode).to.equal(201)
+      expect(xhr.request.body.article.body).to.equal('This is the body')
+      expect(xhr.response.body.article.description).to.equal('This is the description 2')
     })
   })
 
