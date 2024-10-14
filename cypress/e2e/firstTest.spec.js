@@ -45,8 +45,8 @@ describe('Test with backend', () => {
   })
 
   it('verify global feed likes count', () => {
-    cy.intercept('GET', 'https://conduit-api.bondaracademy.com/api/articles/feed*', { "articles": [], "articlesCount": 0 })
-    cy.intercept('GET', 'https://conduit-api.bondaracademy.com/api/articles*', { fixture: "articles.json" })
+    cy.intercept('GET', Cypress.env('apiUrl') + '/api/articles/feed*', { "articles": [], "articlesCount": 0 })
+    cy.intercept('GET', Cypress.env('apiUrl') + '/api/articles*', { fixture: "articles.json" })
 
     cy.contains('Global Feed').click()
     cy.get('app-article-list button').then(heartList => {
@@ -57,7 +57,7 @@ describe('Test with backend', () => {
     cy.fixture('articles').then(file => {
       const articleLink = file.articles[1].slug
       file.articles[1].favoritesCount = 6
-      cy.intercept('POST', 'https://conduit-api.bondaracademy.com/api/articles/' + articleLink + '/favorite', file)
+      cy.intercept('POST', Cypress.env('apiUrl') + '/api/articles/' + articleLink + '/favorite', file)
     })
 
     cy.get('app-article-list button').eq(1).click().should('contain', '6')
@@ -67,7 +67,7 @@ describe('Test with backend', () => {
     const bodyRequest = {
       "article": {
         "tagList": [],
-        "title": "Request from API",
+        "title": "Request from API " + Math.random(),
         "description": "API testing is easy",
         "body": "Angular is cool"
       }
@@ -75,7 +75,7 @@ describe('Test with backend', () => {
 
     cy.get('@token').then(token => {
       cy.request({
-        url: 'https://conduit-api.bondaracademy.com/api/articles/',
+        url: Cypress.env('apiUrl') + '/api/articles/',
         headers: { 'Authorization': 'Token ' + token },
         method: 'POST',
         body: bodyRequest,
@@ -89,7 +89,7 @@ describe('Test with backend', () => {
       cy.get('.article-actions').contains('Delete Article').click()
 
       cy.request({
-        url: 'https://conduit-api.bondaracademy.com/api/articles?limit=10&offset=0',
+        url: Cypress.env('apiUrl') + '/api/articles?limit=10&offset=0',
         headers: { 'Authorization': 'Token ' + token },
         method: 'GET'
       }).its('body').then(body => {
