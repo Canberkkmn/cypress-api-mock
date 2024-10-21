@@ -16,8 +16,10 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
+      require('cypress-mochawesome-reporter')
     },
     baseUrl: 'https://conduit.bondaracademy.com/',
     specPattern: 'cypress/e2e/**.spec.{js,jsx,ts,tsx}'
   },
+  reporter: 'cypress-mochawesome-reporter'
 });
