@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:report": "npx cypress run --reporter mochawesome"
+    "test:report": "npx cypress run --reporter mochawesome",
+    "test:detailed-report": "npx cypress run --reporter mochawesome --reporter-options reportDir=mochawesome-report,overwrite=true,html=true,json=false,timestamp=mmddyyyy_HHMMss"
   },
   "author": "",
   "license": "ISC",

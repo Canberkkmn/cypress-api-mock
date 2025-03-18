@@ -25,7 +25,7 @@ jobs:
         run: npm install
 
       - name: Run Cypress tests
-        run: npx cypress run --reporter mochawesome --reporter-options reportDir=mochawesome-report,overwrite=true,html=true,json=false,timestamp=mmddyyyy_HHMMss
+        run: npm run test:detailed-report
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
