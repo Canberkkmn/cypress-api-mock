@@ -25,7 +25,7 @@ jobs:
         run: npm install
 
       - name: Run Cypress tests
-        run: npx cypress run --reporter mochawesome --reporter-options reportDir=mochawesome-report,overwrite=false,html=true,json=true
+        run: npx cypress run --reporter mochawesome --reporter-options reportDir=mochawesome-report,overwrite=true,html=true,json=true,timestamp=mmddyyyy_HHMMss
 
       - name: List test results directory (Debugging)
         run: ls -l mochawesome-report/

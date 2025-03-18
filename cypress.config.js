@@ -15,7 +15,7 @@ module.exports = defineConfig({
   },
   e2e: {
     setupNodeEvents(on, config) {
-      require('cypress-mochawesome-reporter/plugin')(on);
+      require("cypress-mochawesome-reporter/plugin")(on);
     },
     baseUrl: "https://conduit.bondaracademy.com/",
     specPattern: "cypress/e2e/**.spec.{js,jsx,ts,tsx}",
@@ -23,8 +23,9 @@ module.exports = defineConfig({
   reporter: "cypress-mochawesome-reporter",
   reporterOptions: {
     reportDir: "mochawesome-report",
-    overwrite: false,
+    overwrite: true,
     html: true,
     json: true,
+    timestamp: "mmddyyyy_HHMMss",
   },
 });
