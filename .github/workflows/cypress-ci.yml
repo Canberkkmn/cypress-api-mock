@@ -24,10 +24,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Cypress tests
-        run: npx cypress run --reporter mochawesome --reporter-options reportDir=mochawesome-report,overwrite=true,html=true,json=true,timestamp=mmddyyyy_HHMMss
+      - name: Verify Cypress installation
+        run: npx cypress verify
 
-      - name: List test results directory (Debugging)
+      - name: Run Cypress tests
+        run: npx cypress run --reporter mochawesome --reporter-options reportDir=mochawesome-report,overwrite=true,html=true,json=false,timestamp=mmddyyyy_HHMMss
+
+      - name: Debug - List Report Files
         run: ls -l mochawesome-report/
 
       - name: Upload test results
