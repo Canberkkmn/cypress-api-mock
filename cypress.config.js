@@ -15,12 +15,11 @@ module.exports = defineConfig({
   },
   e2e: {
     setupNodeEvents(on, config) {
-      require("cypress-mochawesome-reporter/plugin")(on);
     },
     baseUrl: "https://conduit.bondaracademy.com/",
     specPattern: "cypress/e2e/**.spec.{js,jsx,ts,tsx}",
   },
-  reporter: "cypress-mochawesome-reporter",
+  reporter: "mochawesome",
   reporterOptions: {
     reportDir: "mochawesome-report",
     overwrite: true,
